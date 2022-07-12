@@ -51,16 +51,18 @@ if __name__ == '__main__':
 
     # student.delete_student(201901029)
 
-    # students = student.get_students(last_name="Za")
-    # for student in students:
-    #     print(f"Student # {student.student_number} -- {student.first_name} {student.last_name}")
-    #     print(f"\tEmail: {student.email}")
-    #     print(f"\tSection: {student.section}")
+    student.update_student(201901029, first_name="Acindo", last_name="Monter", email="acindomonter@school.edu")
 
-    counts = student.get_sections_count()
-    for section in counts:
-        print(f"{section}: {counts[section]}")
+    students = student.get_students()
+    for student in students:
+        print(f"Student # {student.student_number} -- {student.first_name} {student.last_name}")
+        print(f"\tEmail: {student.email}")
+        print(f"\tSection: {student.section}")
 
-    seg31_count = student.get_sections_count("SEG31")
-    print(f"SEG31 count: {seg31_count}")
+    # counts = student.get_sections_count()
+    # for section in counts:
+    #     print(f"{section}: {counts[section]}")
+    #
+    # seg31_count = student.get_sections_count("SEG31")
+    # print(f"SEG31 count: {seg31_count}")
 

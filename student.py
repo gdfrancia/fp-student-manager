@@ -76,8 +76,31 @@ def get_sections_count(section=""):
     return sections_count
 
 
-# def update_student(student_no):
-#     selected_student =
+def update_student(student_no, first_name="", last_name="", email="", section=""):
+    updated_student = Student()
+    updated_student.student_number = student_no
+    updated_student.first_name = first_name
+    updated_student.last_name = last_name
+    updated_student.email = email
+    updated_student.section = section
+
+    ct = database.Session()
+    selected_student = ct.query(Student).get(student_no)
+    if first_name != "":
+        selected_student.first_name = first_name
+    if last_name != "":
+        selected_student.last_name = last_name
+    if email != "":
+        selected_student.email = email
+    if section != "":
+        selected_student.section = section
+    if first_name == "" and last_name == "" and email == "" and section == "":
+        print("Nothing Updated. Please update at least 1 parameter.")
+        return
+
+    ct.add(selected_student)
+    ct.commit()
+    ct.close()
 
 
 def delete_student(student_no):
