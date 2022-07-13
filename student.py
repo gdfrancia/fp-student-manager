@@ -3,8 +3,9 @@
 A basic student repository model that acts as the DAO (Data Access Object) for the `student` table,
 which uses sqlalchemy for handling SQL requests to and from the database (sqlite3).
 """
+from typing import Any
 
-from sqlalchemy import Column, Integer, String, func
+from sqlalchemy import Column, Integer, String, func, text
 from sqlalchemy.ext.declarative import declarative_base
 
 import database
@@ -21,7 +22,8 @@ class Student(Model):
     section = Column('section', String)
 
     def __init__(self, first_name: str = "", last_name: str = "", email: str = "", section: str = "",
-                 student_number: int = 0):
+                 student_number: int = 0, *args: Any, **kwargs: Any):
+        super().__init__(*args, **kwargs)
         if student_number != 0:
             self.student_number = student_number
         self.first_name = first_name
@@ -80,6 +82,18 @@ def get_students() -> [Student]:
     return students
 
 
+def get_students_by_section(section: str) -> [Student]:
+    """gets all students from the database for a particular class section
+
+    :param section: search parameter for a student's section
+    :return: a list of students for that section
+    """
+    ct = database.Session()
+    students = ct.query(Student).where(Student.section == section)
+    ct.close()
+    return students
+
+
 def get_students_by_last_name(last_name: str) -> [Student]:
     """gets all students from the database with a specific last name
 
@@ -110,12 +124,22 @@ def get_sections_count() -> dict[str, int]:
     :return: a dictionary where the key is the section, and the value is the student count for that section
     """
     ct = database.Session()
-    sections_count = dict(
-        ct.query(Student.section, func.count(Student.section))
-        .group_by(Student.section)
+    sections_count = ct.query(Student.section, func.count(Student.section))\
+        .group_by(Student.section)\
         .all()
-    )
-    return sections_count
+    return dict(sections_count)
+
+
+def get_total_students() -> int:
+    """gets the total number of students in the database
+
+    :return: the total number of students in the database
+    """
+
+    ct = database.Session()
+    total_count = ct.query(func.count(Student.section)).scalar()
+    ct.close()
+    return total_count
 
 
 def get_section_count(section: str) -> int:
