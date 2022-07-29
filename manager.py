@@ -6,6 +6,7 @@ from rich.panel import Panel
 
 from views import display_student, display_students, display_sections_count
 
+
 # Clear function for dynamic os
 def clear():
     # For Windows
@@ -16,10 +17,11 @@ def clear():
     else:
         system('clear')
 
+
 class Manager:
     console = Console()
 
-    def pause(self,custom_prompt="\n[italic]Press ENTER to continue."):
+    def pause(self, custom_prompt="\n[italic]Press ENTER to continue."):
         self.console.input(custom_prompt)
 
     def choice(self, choice):
@@ -34,10 +36,11 @@ class Manager:
         """Add a student
 
         Returns:
-            Boolean: Wether to exit the app or not
+            Boolean: Whether to exit the app or not
         """
         clear()
-        self.console.print(Panel("[bold green blink]📋 Add Student[/bold green blink]\n\n[italic]Leave any field empty to return to top menu"))
+        self.console.print(Panel(
+            "[bold green blink]📋 Add Student[/bold green blink]\n\n[italic]Leave any field empty to return to top menu"))
         first_name = self.console.input("[1] First Name: ")
         if first_name == "":
             return False
@@ -62,10 +65,10 @@ class Manager:
             student.add_student(first_name,
                                 last_name,
                                 email,
-                                student_no,
+                                int(student_no),
                                 section)
             self.console.print(Panel("[bold green]\n✅ Student added!\n"))
-            display_student(student.get_student_by_id(student_no))
+            display_student(student.get_student_by_id(int(student_no)))
 
         self.pause()
         return False
@@ -74,7 +77,7 @@ class Manager:
         """Search a student
 
         Returns:
-            Boolean: Wether to exit the app or not
+            Boolean: Whether to exit the app or not
         """
         clear()
         self.console.print(Panel("[cyan blink]🔍 Search Student - Select Search Mode"))
@@ -97,14 +100,13 @@ class Manager:
                 self.console.print("[red] Student ID provided is invalid")
                 self.pause()
                 return False
-            exists = student.get_student_by_id(student_no)
+            exists = student.get_student_by_id(int(student_no))
             if not exists:
                 self.console.print(
                     Panel("[bold red blink]\n❌ Error:[/] Student does not exist!\n"))
             else:
                 self.console.print(Panel("[bold green]\n🔍 Student found!\n"))
                 display_student(exists)
-
 
         if search_mode == "2":
             self.console.print(Panel("[bold cyan blink]🔍 Search Student by Last Name"))
@@ -131,7 +133,9 @@ class Manager:
             Boolean: Wether to exit the app or not
         """
         clear()
-        self.console.print(Panel("[bold yellow blink]📝 Edit Student[/bold yellow blink]\n\n[italic]Leave any field blank to return to top menu."))
+        self.console.print(Panel(
+            "[bold yellow blink]📝 Edit Student[/bold yellow blink]\n\n[italic]Leave any field blank to return to top "
+            "menu."))
         student_no = self.console.input("[1] Student No.: ")
         if student_no == "":
             return False
@@ -140,7 +144,7 @@ class Manager:
             self.pause()
             return False
 
-        result = student.get_student_by_id(student_no)
+        result = student.get_student_by_id(int(student_no))
         if not result:
             self.console.print(
                 Panel("[bold red blink]\n❌ Error:[/] Student does not exist!\n"))
@@ -157,26 +161,46 @@ class Manager:
             edit_field = self.console.input("Enter your choice: ")
 
             if edit_field == "1":
-                result.first_name = self.console.input(
+                first_name_input = self.console.input(
                     f"Enter new first name ({result.first_name}): ")
-                edited = True
+                if first_name_input == result.first_name:
+                    self.console.print(f"[red][bold]Input is the same as the current field![/bold]\nPlease Try Again.")
+                    edited = False
+                else:
+                    result.first_name = first_name_input
+                    edited = True
             elif edit_field == "2":
-                result.last_name = self.console.input(
+                last_name_input = self.console.input(
                     f"Enter new last name ({result.last_name}): ")
-                edited = True
+                if last_name_input == result.last_name:
+                    self.console.print(f"[red][bold]Input is the same as the current field![/bold]\nPlease Try Again.")
+                    edited = False
+                else:
+                    result.last_name = last_name_input
+                    edited = True
             elif edit_field == "3":
-                result.email = self.console.input(
+                email_input = self.console.input(
                     f"Enter new email ({result.email}): ")
-                edited = True
+                if email_input == result.email:
+                    self.console.print(f"[red][bold]Input is the same as the current field![/bold]\nPlease Try Again.")
+                    edited = False
+                else:
+                    result.email = email_input
+                    edited = True
             elif edit_field == "4":
-                result.section = self.console.input(
+                section_input = self.console.input(
                     f"Enter new section ({result.section}): ")
-                edited = True
+                if section_input == result.section:
+                    self.console.print(f"[red][bold]Input is the same as the current field![/bold]\nPlease Try Again.")
+                    edited = False
+                else:
+                    result.section = section_input
+                    edited = True
 
             if edited:
                 student.find_and_update_student(result)
                 self.console.print(Panel("[bold green]\n✅ Changes saved!\n"))
-                display_student(student.get_student_by_id(student_no))
+                display_student(student.get_student_by_id(int(student_no)))
                 self.pause()
             else:
                 self.console.print(
@@ -214,7 +238,7 @@ class Manager:
                 self.console.print("[red] Student ID provided is invalid")
                 self.pause()
                 return False
-            student_delete_target = student.get_student_by_id(student_no)
+            student_delete_target = student.get_student_by_id(int(student_no))
             if not student_delete_target:
                 self.console.print(
                     Panel("[bold red blink]\n❌ Student ID does not exist.\n"))
@@ -243,19 +267,22 @@ class Manager:
                 if not student_id_target.isdigit():
                     self.console.print("[red]❌ Invalid ID provided.")
 
-                student_delete_target = student.get_student_by_id(student_id_target)
+                student_delete_target = student.get_student_by_id(int(student_id_target))
                 if not student_delete_target:
                     self.console.print(
                         Panel("[bold red blink]\n❌ Student ID does not exist.\n"))
                     self.pause()
                     return False
                 if not student_delete_target in exists:
-                    self.pause(Panel("[bold red blink]\n❌ Student ID does not match search query.\n\n[/bold red blink][italic]Press ENTER and try again."))
+                    self.pause(Panel(
+                        "[bold red blink]\n❌ Student ID does not match search query.\n\n[/bold red blink][italic]Press ENTER and try again."))
                     return False
 
         display_student(student_delete_target)
         self.console.print("\n[bold red blink]!! THIS ACTION IS IRREVERSIBLE !!")
-        self.console.print("[red]Are you sure you want to remove this student record? Type[/red] [yellow italic]confirm[/yellow italic] [red]to confirm this action.")
+        self.console.print(
+            "[red]Are you sure you want to remove this student record? Type[/red] [yellow italic]confirm[/yellow "
+            "italic] [red]to confirm this action.")
         delete_confirm = self.console.input("> ")
         if delete_confirm == "confirm":
             student.delete_student(student_delete_target.student_number)
