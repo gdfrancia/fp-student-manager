@@ -8,6 +8,8 @@
   - Backend API and Database ORM Setup
 - [Paolo Steven Santos](https://github.com/mahomuri)
   - Frontend CLI Commands
+- [Lance David Selga](https://github.com/lyonlancer5)
+  - Validation checks and general cleanup
 
 ## Features/Specifications:
 

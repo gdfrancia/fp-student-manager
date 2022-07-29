@@ -3,8 +3,7 @@
 A basic student repository model that acts as the DAO (Data Access Object) for the `student` table,
 which uses sqlalchemy for handling SQL requests to and from the database (sqlite3).
 """
-from typing import List
-from typing import Any
+from typing import List, Any
 
 from sqlalchemy import Column, Integer, String, func, text
 from sqlalchemy.ext.declarative import declarative_base
@@ -25,8 +24,7 @@ class Student(Model):
     def __init__(self, first_name: str = "", last_name: str = "", email: str = "", section: str = "",
                  student_number: int = 0, *args: Any, **kwargs: Any):
         super().__init__(*args, **kwargs)
-        if student_number != 0:
-            self.student_number = student_number
+        self.student_number = student_number
         self.first_name = first_name
         self.last_name = last_name
         self.email = email
@@ -90,7 +88,7 @@ def get_students_by_last_name(last_name: str) -> List[Student]:
     :return: a list of students
     """
     ct = database.Session()
-    students = ct.query(Student).where(Student.last_name == last_name)
+    students = ct.query(Student).where(Student.last_name == last_name).all()
     ct.close()
     return students
 
@@ -191,6 +189,10 @@ def delete_student(student_no: int):
     ct = database.Session()
     student_to_del = ct.query(Student).filter(
         Student.student_number == student_no).one()
-    ct.delete(student_to_del)
-    ct.commit()
+    if student_to_del is not None:
+        ct.delete(student_to_del)
+        ct.commit()
+    else:
+        print("Student not found, no changes were made.")
+        ct.rollback()
     ct.close()
