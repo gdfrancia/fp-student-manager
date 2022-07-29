@@ -13,14 +13,11 @@ def main():
 
     while not exit:
         manager = Manager()
-
         exit = manager.choice(print_menu())
 
         if exit == "INVINPUT":
             exit = False
-            console.print(
-                Panel("[bold red]\n❌ Invalid input! Please try again\n"))
-            system("PAUSE")
+            manager.pause(Panel("[bold red]\n❌ Invalid input! Press ENTER and try again.\n"))
 
     console.print(
         Panel("[bold yellow]\n📤 Now Exiting![/bold yellow][bold bright_green]\n✅ Thank you for using the app!\n"))

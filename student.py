@@ -88,7 +88,7 @@ def get_students_by_last_name(last_name: str) -> List[Student]:
     :return: a list of students
     """
     ct = database.Session()
-    students = ct.query(Student).where(Student.last_name == last_name)
+    students = ct.query(Student).where(Student.last_name == last_name).all()
     ct.close()
     return students
 

@@ -43,15 +43,15 @@ def display_students(student_list: List[Student],
                   show_footer=show_footer, header_style="bold red")
     table.add_column("School ID", style="dim", width=12,
                      footer=Align.right(school_id_footer))
-    table.add_column("First Name", footer=Align.right(first_name_footer))
     table.add_column("Last Name", footer=Align.right(last_name_footer))
+    table.add_column("First Name", footer=Align.right(first_name_footer))
     table.add_column("Email", footer=Align.right(email_footer))
     table.add_column("Section", footer=Align.right(section_footer))
     for std in student_list:
         table.add_row(
             str(std.student_number),
-            std.first_name,
             std.last_name,
+            std.first_name,
             std.email,
             std.section
         )
