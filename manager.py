@@ -4,13 +4,10 @@ from os import system, name
 from rich.console import Console
 from rich.panel import Panel
 
-from views import display_student
+from views import display_student, display_students, display_sections_count
 
 # Clear function for dynamic os
-
-
 def clear():
-
     # For Windows
     if name == 'nt':
         system('cls')
@@ -19,13 +16,11 @@ def clear():
     else:
         system('clear')
 
-
-def pause():
-    system("PAUSE")
-
-
 class Manager:
     console = Console()
+
+    def pause(self):
+        self.console.input("\n[italic]Press ENTER to continue.")
 
     def choice(self, choice):
         default = "INVINPUT"
@@ -53,7 +48,6 @@ class Manager:
         if exists:
             self.console.print(
                 Panel("[bold red blink]\n❌ Error:[/] Student already exists!\n"))
-            pause()
         else:
             student.add_student(first_name,
                                 last_name,
@@ -62,8 +56,8 @@ class Manager:
                                 section)
             self.console.print(Panel("[bold green]\n✅ Student added!\n"))
             display_student(student.get_student_by_id(student_no))
-            pause()
 
+        self.pause()
         return False
 
     def case2(self):
@@ -80,11 +74,10 @@ class Manager:
         if not exists:
             self.console.print(
                 Panel("[bold red blink]\n❌ Error:[/] Student does not exist!\n"))
-            pause()
         else:
             self.console.print(Panel("[bold green]\n🔍 Student found!\n"))
             display_student(exists)
-            pause()
+        self.pause()
         return False
 
     def case3(self):
@@ -101,7 +94,7 @@ class Manager:
         if not result:
             self.console.print(
                 Panel("[bold red blink]\n❌ Error:[/] Student does not exist!\n"))
-            pause()
+            self.pause()
         else:
             edited = False
             self.console.print(Panel("[bold green]\n🔍 Student found!\n"))
@@ -132,13 +125,13 @@ class Manager:
 
             if edited:
                 student.find_and_update_student(result)
-                self.console.print(Panel("[bold green]\n✅ Saved Edits!\n"))
+                self.console.print(Panel("[bold green]\n✅ Changes saved!\n"))
                 display_student(student.get_student_by_id(student_no))
-                pause()
+                self.pause()
             else:
                 self.console.print(
-                    Panel("[bold red blink]\n❌ Error:[/] No edits done!\n"))
-                pause()
+                    Panel("[bold red blink]\n❌ No changes made.\n"))
+                self.pause()
         return False
 
     def case4(self):
@@ -147,7 +140,27 @@ class Manager:
         Returns:
             Boolean: Wether to exit the app or not
         """
-        self.console.print("Case 4")
+
+        clear()
+        self.console.print(Panel("[red blink]❌ Delete Student"))
+        student_no = self.console.input("[1] Student No.: ")
+        exists = student.get_student_by_id(student_no)
+
+        if not exists:
+            self.console.print(
+                Panel("[bold red blink]\n❌ Student ID does not exist.\n"))
+            self.pause()
+        else:
+            display_student(exists)
+            self.console.print("\n[bold red blink]!! THIS ACTION IS IRREVERSIBLE !!")
+            self.console.print("[red]Are you sure you want to remove this student record? Type[/red] [yellow italic]confirm[/yellow italic] [red]to confirm this action.")
+            delete_confirm = self.console.input("> ")
+            if delete_confirm == "confirm":
+                student.delete_student(student_no)
+                self.console.print("[bold green]✅ Student record deleted!")
+            else:
+                self.console.print("[bold red]❌ Action aborted.")
+            self.pause()
         return False
 
     def case5(self):
@@ -156,7 +169,11 @@ class Manager:
         Returns:
             Boolean: Wether to exit the app or not
         """
-        self.console.print("Case 5")
+        clear()
+        self.console.print(Panel("[orange3]📃 List all students"))
+        student_list = student.get_students()
+        display_students(student_list)
+        self.pause()
         return False
 
     def case6(self):
@@ -165,4 +182,8 @@ class Manager:
         Returns:
             Boolean: Wether to exit the app or not
         """
-        self.console.print("Case 6")
+        clear()
+        self.console.print(Panel("[orange3]📄 List sections"))
+        display_sections_count()
+        self.pause()
+        return False
