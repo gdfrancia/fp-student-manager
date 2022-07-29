@@ -39,12 +39,23 @@ class Manager:
         clear()
         self.console.print(Panel("[bold green blink]📋 Add Student"))
         first_name = self.console.input("[1] First Name: ")
+        if first_name == "":
+            self.console.print("[red] First Name is empty")
         last_name = self.console.input("[2] Last Name: ")
+        if last_name == "":
+            self.console.print("[red] Last Name is empty")
         email = self.console.input("[3] Email: ")
+        if email == "":
+            self.console.print("[red] Email is empty")
         section = self.console.input("[4] Section: ")
+        if section == "":
+            self.console.print("[red] Section is empty")
         student_no = self.console.input("[5] Student No.: ")
+        if not student_no.isdigit():
+            self.console.print("[red] Student ID is invalid.")
+            self.pause()
+            return False
         exists = student.get_student_by_id(int(student_no))
-
         if exists:
             self.console.print(
                 Panel("[bold red blink]\n❌ Error:[/] Student already exists!\n"))
@@ -69,6 +80,10 @@ class Manager:
         clear()
         self.console.print(Panel("[bold cyan blink]🔍 Search Student"))
         student_no = self.console.input("[1] Student No.: ")
+        if not student_no.isdigit():
+            self.console.print("[red] Student ID provided is invalid")
+            self.pause()
+            return False
         exists = student.get_student_by_id(student_no)
 
         if not exists:
@@ -89,8 +104,12 @@ class Manager:
         clear()
         self.console.print(Panel("[bold yellow blink]📝 Edit Student"))
         student_no = self.console.input("[1] Student No.: ")
-        result = student.get_student_by_id(student_no)
+        if not student_no.isdigit():
+            self.console.print("[red] Student ID provided is invalid")
+            self.pause()
+            return False
 
+        result = student.get_student_by_id(student_no)
         if not result:
             self.console.print(
                 Panel("[bold red blink]\n❌ Error:[/] Student does not exist!\n"))
@@ -100,10 +119,10 @@ class Manager:
             self.console.print(Panel("[bold green]\n🔍 Student found!\n"))
             display_student(result)
             self.console.print("[italic dim]What do you want to edit?")
-            self.console.print("[1] [italic dim]First Name?")
-            self.console.print("[2] [italic dim]Last Name?")
-            self.console.print("[3] [italic dim]Email?")
-            self.console.print("[4] [italic dim]Section?")
+            self.console.print("[1] [italic dim]First Name")
+            self.console.print("[2] [italic dim]Last Name")
+            self.console.print("[3] [italic dim]Email")
+            self.console.print("[4] [italic dim]Section")
             edit_field = int(self.console.input("Enter your choice: "))
 
             if edit_field == 1:
@@ -144,8 +163,12 @@ class Manager:
         clear()
         self.console.print(Panel("[red blink]❌ Delete Student"))
         student_no = self.console.input("[1] Student No.: ")
-        exists = student.get_student_by_id(student_no)
+        if not student_no.isdigit():
+            self.console.print("[red] Student ID provided is invalid")
+            self.pause()
+            return False
 
+        exists = student.get_student_by_id(student_no)
         if not exists:
             self.console.print(
                 Panel("[bold red blink]\n❌ Student ID does not exist.\n"))
