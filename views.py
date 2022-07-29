@@ -40,19 +40,22 @@ def display_students(student_list: List[Student],
     """Displays a table of a particular student list, with optional footer parameters"""
 
     table = Table(title=table_title, show_header=True,
-                  show_footer=show_footer, header_style="bold red")
-    table.add_column("School ID", style="dim", width=12,
+                  show_footer=show_footer, header_style="bold yellow")
+    table.add_column("School ID", style="b green", width=12,
                      footer=Align.right(school_id_footer))
-    table.add_column("Last Name", footer=Align.right(last_name_footer))
-    table.add_column("First Name", footer=Align.right(first_name_footer))
+    table.add_column("Last Name", style="b cyan",
+                     footer=Align.right(last_name_footer))
+    table.add_column("First Name", style="b cyan",
+                     footer=Align.right(first_name_footer))
     table.add_column("Email", footer=Align.right(email_footer))
-    table.add_column("Section", footer=Align.right(section_footer))
+    table.add_column("Section", style="b red",
+                     footer=Align.right(section_footer))
     for std in student_list:
         table.add_row(
             str(std.student_number),
             std.last_name,
             std.first_name,
-            std.email,
+            f"[b u]{std.email}",
             std.section
         )
 
@@ -68,9 +71,11 @@ def display_student(std: Student):
 def display_sections_count():
     """displays a table of sections and the student count for each section, with the total student count
     as the footer"""
-    table = Table(show_header=True, show_footer=True, header_style="bold red")
-    table.add_column("Section", style="dim", footer="Total")
-    table.add_column("No. of Students", footer=str(s.get_total_students()))
+    table = Table(show_header=True, show_footer=True,
+                  header_style="bold yellow")
+    table.add_column("Section", style="red", footer="[bold cyan]Total")
+    table.add_column("No. of Students",
+                     footer=f"[bold green]{str(s.get_total_students())}")
     students_count = s.get_sections_count()
     for section in students_count:
         if section != 'Total':
