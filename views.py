@@ -1,13 +1,26 @@
+from typing import List
 from rich.console import Console
 from rich.table import Table
 from rich.panel import Panel
 from rich.columns import Columns
 from rich.align import Align
+from os import system, name
 
-import student as s
 from student import Student
+import student as s
 
 console = Console()
+
+
+def clear():
+
+    # For Windows
+    if name == 'nt':
+        system('cls')
+
+    # For Mac and Linux(here, os.name is 'posix')
+    else:
+        system('clear')
 
 
 def _get_content(std: Student):
@@ -17,17 +30,19 @@ def _get_content(std: Student):
     name = f"{std.last_name}, {std.first_name}"
     email = std.email
     section = std.section
-    return f"[dim]{student_no}[/dim]\n[b]{name}[/b]\n{email}\n[bold red]{section}"
+    return f"[yellow]Student No: [/][b green]{student_no}[/]\n[yellow]Name: [/][b cyan]{name}[/]\n[yellow]Email: [/][b u]{email}[/]\n[yellow]Section: [/][b red]{section}[/]"
 
 
-def display_students(student_list: [Student],
+def display_students(student_list: List[Student],
                      show_footer=False,
                      table_title="", school_id_footer="", first_name_footer="", last_name_footer="",
                      email_footer="", section_footer=""):
     """Displays a table of a particular student list, with optional footer parameters"""
 
-    table = Table(title=table_title, show_header=True, show_footer=show_footer, header_style="bold red")
-    table.add_column("School ID", style="dim", width=12, footer=Align.right(school_id_footer))
+    table = Table(title=table_title, show_header=True,
+                  show_footer=show_footer, header_style="bold red")
+    table.add_column("School ID", style="dim", width=12,
+                     footer=Align.right(school_id_footer))
     table.add_column("First Name", footer=Align.right(first_name_footer))
     table.add_column("Last Name", footer=Align.right(last_name_footer))
     table.add_column("Email", footer=Align.right(email_footer))
@@ -76,3 +91,18 @@ def display_section(section: str):
                      show_footer=True,
                      email_footer="Student Count:",
                      section_footer=f"{s.get_section_count(section)}")
+
+
+def print_menu():
+    """Prints the menu
+    """
+    clear()
+    console.print(Panel("[bold cyan]🎓 Student Management System"))
+    console.print("[1] [green]📋 Add Student")
+    console.print("[2] [cyan]🔍 Search Student")
+    console.print("[3] [yellow]📝 Edit Student")
+    console.print("[4] [red]❌ Delete Student")
+    console.print("[5] [orange3]📃 List all students")
+    console.print("[6] [orange3]📄 List sections")
+    console.print("[0] [magenta]📤 Exit")
+    return console.input("Enter your choice: ")

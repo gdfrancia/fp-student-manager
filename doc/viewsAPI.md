@@ -1,6 +1,7 @@
 ## Display All Students
 
 ### Usage:
+
 ```python
 import student
 import views
@@ -10,6 +11,7 @@ views.display_students(students)
 ```
 
 ### Output:
+
 ```
 ┏━━━━━━━━━━━━━━┳━━━━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━┓
 ┃ School ID    ┃ First Name ┃ Last Name ┃ Email                    ┃ Section ┃
@@ -26,6 +28,7 @@ views.display_students(students)
 ## Display Single Student
 
 ### Usage:
+
 ```python
 import student
 import views
@@ -35,18 +38,20 @@ views.display_student(found_student)
 ```
 
 ### Output:
+
 ```
-╭──────────────────────────╮
-│ 201901028                │
-│ Francia, Gabriel         │
-│ gdfrancia01901@proton.me │
-│ SEG31                    │
-╰──────────────────────────╯
+╭─────────────────────────────────╮
+│ Student No.: 201901028          │
+│ Name: Francia, Gabriel          │
+│ Email: gdfrancia01901@proton.me │
+│ Section: SEG31                  │
+╰─────────────────────────────────╯
 ```
 
 ## Display Sections Count
 
 ### Usage:
+
 ```python
 import views
 ...
@@ -54,6 +59,7 @@ views.display_sections_count()
 ```
 
 ### Output:
+
 ```
 ┏━━━━━━━━━┳━━━━━━━━━━━━━━━━━┓
 ┃ Section ┃ No. of Students ┃
@@ -69,6 +75,7 @@ views.display_sections_count()
 ## Display Section
 
 ### Usage:
+
 ```python
 import views
 
@@ -76,8 +83,9 @@ views.display_section("SEG31")
 ```
 
 ### Output:
+
 ```
-                                Section SEG31                                 
+                                Section SEG31
 ┏━━━━━━━━━━━━━━┳━━━━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━┓
 ┃ School ID    ┃ First Name ┃ Last Name ┃ Email                    ┃ Section ┃
 ┡━━━━━━━━━━━━━━╇━━━━━━━━━━━━╇━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━┩
@@ -87,4 +95,3 @@ views.display_section("SEG31")
 │              │            │           │           Student Count: │       2 │
 └──────────────┴────────────┴───────────┴──────────────────────────┴─────────┘
 ```
-

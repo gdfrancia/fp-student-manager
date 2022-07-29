@@ -3,6 +3,7 @@
 A basic student repository model that acts as the DAO (Data Access Object) for the `student` table,
 which uses sqlalchemy for handling SQL requests to and from the database (sqlite3).
 """
+from typing import List
 from typing import Any
 
 from sqlalchemy import Column, Integer, String, func, text
@@ -71,7 +72,7 @@ def add_student(first_name: str, last_name: str, email: str, student_no: int, se
     ct.close()
 
 
-def get_students() -> [Student]:
+def get_students() -> List[Student]:
     """gets all students from the database
 
     :return: a list of students
@@ -82,19 +83,7 @@ def get_students() -> [Student]:
     return students
 
 
-def get_students_by_section(section: str) -> [Student]:
-    """gets all students from the database for a particular class section
-
-    :param section: search parameter for a student's section
-    :return: a list of students for that section
-    """
-    ct = database.Session()
-    students = ct.query(Student).where(Student.section == section)
-    ct.close()
-    return students
-
-
-def get_students_by_last_name(last_name: str) -> [Student]:
+def get_students_by_last_name(last_name: str) -> List[Student]:
     """gets all students from the database with a specific last name
 
     :param last_name: search parameter for a student's last name
@@ -200,7 +189,8 @@ def delete_student(student_no: int):
     :param student_no: student number of student to delete
     """
     ct = database.Session()
-    student_to_del = ct.query(Student).filter(Student.student_number == student_no).one()
+    student_to_del = ct.query(Student).filter(
+        Student.student_number == student_no).one()
     ct.delete(student_to_del)
     ct.commit()
     ct.close()
