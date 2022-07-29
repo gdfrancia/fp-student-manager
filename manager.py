@@ -204,10 +204,10 @@ class Manager:
         if search_mode == "0":
             return False
 
+        clear()
         student_delete_target = None
 
         if search_mode == "1":
-            clear()
             self.console.print(Panel("[red blink]❌ Delete Student"))
             student_no = self.console.input("[1] Student No.: ")
             if not student_no.isdigit():
