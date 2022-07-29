@@ -1,3 +1,5 @@
+# Student API
+
 ## Add a new student
 
 ```python
@@ -15,7 +17,7 @@ student.add_student(
 ## Update an existing student
 
 ```python
-import student 
+import student
 ...
 updated_student = student.Student()
 
